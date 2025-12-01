@@ -9,5 +9,9 @@
 </head>
 <body class="antialiased">
   @yield('content')
+
+  <!-- Panggil Alpine.js di sini -->
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>
