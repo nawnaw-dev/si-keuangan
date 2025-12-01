@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TransaksiController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -16,3 +17,6 @@ Route::get('/register', function () {
 })->name('register');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 //Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
+
+Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
+Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
