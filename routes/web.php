@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\MonitoringController;
+use App\Http\Controllers\KwitansiController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,6 +25,12 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
 Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
 
+//Route::get('/monitoring-saldo', [MonitoringController::class, 'index'])->name('monitoring');
 Route::get('/monitoring', function () {
     return view('monitoring');
 })->name('monitoring');
+
+Route::get('/kwitansi', [KwitansiController::class, 'index'])->name('kwitansi.index');
+Route::post('/kwitansi', [KwitansiController::class, 'store'])->name('kwitansi.store');
+Route::get('/kwitansi/pdf/{id}', [KwitansiController::class, 'exportPdf'])->name('kwitansi.pdf');
+
