@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\LaporanController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,3 +21,13 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
 Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
+
+// Halaman utama laporan keuangan
+Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+
+// Generate laporan berdasarkan bulan & tahun (pakai query string ?periode=YYYY-MM)
+Route::get('/laporan/generate', [LaporanController::class, 'generate'])->name('laporan.generate');
+
+// Export laporan ke PDF
+Route::get('/laporan/export', [LaporanController::class, 'export'])->name('laporan.export');
+
