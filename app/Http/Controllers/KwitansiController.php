@@ -25,7 +25,7 @@ class KwitansiController extends Controller
             'nominal'       => 'required|numeric',
         ]);
 
-        $kwitansi = Kwitansi::create($request->all());
+        // $kwitansi = Kwitansi::create($request->all());
 
         return redirect()->back()->with('success', 'Kwitansi berhasil dibuat!');
     }
@@ -33,7 +33,7 @@ class KwitansiController extends Controller
     // Download PDF Kwitansi
     public function exportPdf($id)
     {
-        $kwitansi = Kwitansi::findOrFail($id);
+        // $kwitansi = Kwitansi::findOrFail($id);
 
         $pdf = Pdf::loadView('pdf.kwitansi', compact('kwitansi'));
         return $pdf->download('kwitansi-'.$kwitansi->id.'.pdf');
