@@ -10,18 +10,22 @@
     
     <!-- Menu atas -->
     <nav class="space-y-7">
-      <a href="#" class="block font-medium hover:text-blue-200">Dashboard</a>
-      <a href="{{ route('transaksi.index') }}" class="block font-medium hover:text-blue-200">Transaksi</a>
-      <a href="#" class="block font-medium hover:text-blue-200">Laporan Keuangan</a>
-      <a href="#" class="block font-medium hover:text-blue-200">Cetak Kuitansi</a>
-      <a href="#" class="block font-medium hover:text-blue-200">Monitoring Saldo</a>
-    </nav>
+  <a href="{{ route('dashboard') }}" class="block font-medium hover:text-blue-200">Dashboard</a>
+  <a href="{{ route('transaksi.index') }}" class="block font-medium hover:text-blue-200">Transaksi</a>
+  <a href="{{ route('laporan.index') }}" class="block font-medium hover:text-blue-200">Laporan Keuangan</a>
+  <a href="{{ route('kwitansi.index') }}" class="block font-medium hover:text-blue-200">Cetak Kuitansi</a>
+  <a href="{{ route('monitoring.index') }}" class="block font-medium hover:text-blue-200">Monitoring Saldo</a>
+</nav>
 
-    <!-- Menu bawah -->
-    <nav class="space-y-4 mt-auto">
-      <a href="#" class="block font-medium hover:text-blue-200">Pengaturan</a>
-      <a href="#" class="block font-medium text-red-200 hover:text-red-100">Logout</a>
-    </nav>
+<nav class="space-y-4 mt-auto">
+  <a href="#" class="block font-medium hover:text-blue-200">Pengaturan</a>
+  <form method="POST" action="{{ route('logout') }}">
+    @csrf
+    <button type="submit" class="block font-medium text-red-200 hover:text-red-100 w-full text-left">
+      Logout
+    </button>
+  </form>
+</nav>
   </aside>
 
   <!-- Main content -->

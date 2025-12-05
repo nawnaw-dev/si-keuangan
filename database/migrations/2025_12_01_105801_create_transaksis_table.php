@@ -6,27 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('transaksis', function (Blueprint $table) {
+        Schema::create('transaksi', function (Blueprint $table) {
             $table->id();
-            $table->string('jenis');       // Pemasukan / Pengeluaran
-            $table->string('kategori');    // Donasi, Sponsor, Gaji, Operasional, dll
-            $table->date('tanggal');       // Tanggal transaksi
-            $table->integer('nominal');    // Jumlah uang
-            $table->text('deskripsi');     // Detail transaksi
-            $table->timestamps();          // created_at & updated_at
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->enum('jenis', ['Pemasukan', 'Pengeluaran']);
+            $table->string('kategori', 100);
+            $table->date('tanggal');
+            $table->decimal('nominal', 15, 2);
+            $table->text('deskripsi')->nullable();
+            $table->decimal('saldo_akhir', 15, 2)->default(0);
+            $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('transaksis');
+        Schema::dropIfExists('transaksi');
     }
 };
