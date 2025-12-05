@@ -4,53 +4,51 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Transaksi;
+use Illuminate\Support\Facades\Auth;
 
 class TransaksiController extends Controller
 {
     public function index()
     {
-        $transaksi = Transaksi::where('user_id', auth()->id())
-            ->orderBy('tanggal', 'desc')
-            ->get();
-        
-        return view('transaksi', compact('transaksi'));
+        $userId = Auth::id(); // lebih aman daripada Auth::user()->id
+        $transaksi = Transaksi::where('user_id', $userId)->get();
+
+        return view('transaksi.index', compact('transaksi'));
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'jenis' => 'required|in:Pemasukan,Pengeluaran',
-            'kategori' => 'required|string|max:100',
+        $userId = Auth::id();
+
+        $request->validate([
             'tanggal' => 'required|date',
+            'jenis' => 'required|in:Pemasukan,Pengeluaran',
             'nominal' => 'required|numeric|min:0',
-            'deskripsi' => 'nullable|string'
         ]);
+
+        $transaksi = new Transaksi();
+        $transaksi->user_id = $userId;
+        $transaksi->tanggal = $request->tanggal;
+        $transaksi->jenis = $request->jenis;
+        $transaksi->nominal = $request->nominal;
 
         // Hitung saldo akhir
-        $lastTransaction = Transaksi::where('user_id', auth()->id())
-            ->orderBy('tanggal', 'desc')
-            ->orderBy('created_at', 'desc')
-            ->first();
-        
-        $lastSaldo = $lastTransaction ? $lastTransaction->saldo_akhir : 0;
-        
-        if ($validated['jenis'] === 'Pemasukan') {
-            $saldoAkhir = $lastSaldo + $validated['nominal'];
-        } else {
-            $saldoAkhir = $lastSaldo - $validated['nominal'];
-        }
+        $saldoSebelumnya = Transaksi::where('user_id', $userId)->latest('tanggal')->first()?->saldo_akhir ?? 0;
+        $transaksi->saldo_akhir = $request->jenis === 'Pemasukan'
+            ? $saldoSebelumnya + $request->nominal
+            : $saldoSebelumnya - $request->nominal;
 
-        Transaksi::create([
-            'user_id' => auth()->id(),
-            'jenis' => $validated['jenis'],
-            'kategori' => $validated['kategori'],
-            'tanggal' => $validated['tanggal'],
-            'nominal' => $validated['nominal'],
-            'deskripsi' => $validated['deskripsi'],
-            'saldo_akhir' => $saldoAkhir
-        ]);
+        $transaksi->save();
 
-        return redirect()->route('transaksi.index')
-            ->with('success', 'Transaksi berhasil ditambahkan');
+        return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil ditambahkan');
+    }
+
+    public function destroy($id)
+    {
+        $userId = Auth::id();
+        $transaksi = Transaksi::where('user_id', $userId)->findOrFail($id);
+        $transaksi->delete();
+
+        return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil dihapus');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Transaksi;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -13,10 +14,10 @@ class DashboardController extends Controller
         $year = $request->get('year', now()->year);
         $month = $request->get('month', now()->format('m'));
         
-        $user = auth()->user();
-        
+        $userId = Auth::id();
+
         // Ambil transaksi bulan ini
-        $transaksiThisMonth = Transaksi::where('user_id', $user->id)
+        $transaksiThisMonth = Transaksi::where('user_id', $userId)
             ->whereYear('tanggal', $year)
             ->whereMonth('tanggal', $month)
             ->get();
@@ -28,7 +29,7 @@ class DashboardController extends Controller
         
         // Hitung persentase vs bulan sebelumnya
         $previousMonth = Carbon::createFromDate($year, $month, 1)->subMonth();
-        $transaksiPreviousMonth = Transaksi::where('user_id', $user->id)
+        $transaksiPreviousMonth = Transaksi::where('user_id', $userId)
             ->whereYear('tanggal', $previousMonth->year)
             ->whereMonth('tanggal', $previousMonth->month)
             ->get();
