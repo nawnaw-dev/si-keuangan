@@ -4,19 +4,20 @@
 
 @section('content')
 <div class="min-h-screen bg-white flex">
-
   <!-- Sidebar -->
   <aside class="w-64 bg-gradient-to-b from-[#123458] to-[#2770BE] text-white p-8 flex flex-col">
     <h2 class="text-2xl font-bold mb-8">Koin Kene</h2>
     
+    <!-- Menu atas -->
     <nav class="space-y-7">
       <a href="#" class="block font-medium hover:text-blue-200">Dashboard</a>
-      <a href="#" class="block font-medium hover:text-blue-200">Transaksi</a>
+      <a href="{{ route('transaksi.index') }}" class="block font-medium hover:text-blue-200">Transaksi</a>
       <a href="#" class="block font-medium hover:text-blue-200">Laporan Keuangan</a>
       <a href="#" class="block font-medium hover:text-blue-200">Cetak Kuitansi</a>
-      <a href="#" class="block font-medium hover:text-blue-200 text-blue-200 underline">Monitoring Saldo</a>
+      <a href="#" class="block font-medium hover:text-blue-200">Monitoring Saldo</a>
     </nav>
 
+    <!-- Menu bawah -->
     <nav class="space-y-4 mt-auto">
       <a href="#" class="block font-medium hover:text-blue-200">Pengaturan</a>
       <a href="#" class="block font-medium text-red-200 hover:text-red-100">Logout</a>
@@ -28,7 +29,7 @@
 
     <!-- HEADER -->
     <div class="mb-8">
-      <h1 class="text-2xl font-bold text-[#123458]">Monitoring Saldo</h1>
+      <h1 class="text-3xl font-bold text-[#123458]">Monitoring Saldo</h1>
       <p class="text-sm text-gray-600 mt-1">{{ now()->format('d F Y') }}</p>
     </div>
 
@@ -58,7 +59,7 @@
     </div>
 
     <!-- Daftar Transaksi -->
-    <div class="bg-white rounded-xl shadow p-6 border border-gray-200">
+    <div class="bg-white rounded-xl shadow p-5 border border-gray-200">
 
       <h2 class="text-lg font-semibold text-[#123458] mb-4">
         Daftar Transaksi Terbaru
