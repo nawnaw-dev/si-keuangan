@@ -27,36 +27,22 @@ class LaporanController extends Controller
         $totalPengeluaran = $laporan->where('jenis', 'Pengeluaran')->sum('nominal');
         $saldoAkhir = $totalPemasukan - $totalPengeluaran;
 
+        // periode laporan
+        $periode = now()->format('Y-m-01');
+
         return view('laporan', compact(
             'laporan',
             'transaksiBulanan',
             'totalPemasukan',
             'totalPengeluaran',
-            'saldoAkhir'
+            'saldoAkhir',
+            'periode'
         ));
     }
 
     public function generate()
     {
-        $userId = Auth::id();
-        $laporan = Transaksi::where('user_id', $userId)->get();
-
-        $transaksiBulanan = Transaksi::where('user_id', $userId)
-            ->whereYear('tanggal', now()->year)
-            ->whereMonth('tanggal', now()->month)
-            ->get();
-
-        $totalPemasukan = $laporan->where('jenis', 'Pemasukan')->sum('nominal');
-        $totalPengeluaran = $laporan->where('jenis', 'Pengeluaran')->sum('nominal');
-        $saldoAkhir = $totalPemasukan - $totalPengeluaran;
-
-        return view('laporan', compact(
-            'laporan',
-            'transaksiBulanan',
-            'totalPemasukan',
-            'totalPengeluaran',
-            'saldoAkhir'
-        ));
+        return $this->index(); // biar tidak duplikasi kode
     }
 
     public function exportPDF()
@@ -73,12 +59,16 @@ class LaporanController extends Controller
         $totalPengeluaran = $laporan->where('jenis', 'Pengeluaran')->sum('nominal');
         $saldoAkhir = $totalPemasukan - $totalPengeluaran;
 
+        // ✅ WAJIB ADA
+        $periode = now()->format('Y-m-01');
+
         $pdf = Pdf::loadView('laporan_pdf', compact(
             'laporan',
             'transaksiBulanan',
             'totalPemasukan',
             'totalPengeluaran',
-            'saldoAkhir'
+            'saldoAkhir',
+            'periode'
         ));
 
         return $pdf->download('laporan.pdf');
