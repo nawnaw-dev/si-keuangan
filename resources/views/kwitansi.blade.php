@@ -4,33 +4,40 @@
 
 @section('content')
 <div class="min-h-screen bg-white flex">
-  <!-- Sidebar -->
   <aside class="w-64 bg-gradient-to-b from-[#123458] to-[#2770BE] text-white p-8 flex flex-col">
     <h2 class="text-2xl font-bold mb-8">Koin Kene</h2>
     
     <!-- Menu atas -->
     <nav class="space-y-7">
-      <a href="#" class="block font-medium hover:text-blue-200">Dashboard</a>
-      <a href="{{ route('transaksi.index') }}" class="block font-medium hover:text-blue-200">Transaksi</a>
-      <a href="#" class="block font-medium hover:text-blue-200">Laporan Keuangan</a>
-      <a href="#" class="block font-medium hover:text-blue-200">Cetak Kuitansi</a>
-      <a href="#" class="block font-medium hover:text-blue-200">Monitoring Saldo</a>
-    </nav>
+  <a href="{{ route('dashboard') }}" class="block font-medium hover:text-blue-200">Dashboard</a>
+  <a href="{{ route('transaksi.index') }}" class="block font-medium hover:text-blue-200">Transaksi</a>
+  <a href="{{ route('laporan.index') }}" class="block font-medium hover:text-blue-200">Laporan Keuangan</a>
+  <a href="{{ route('kwitansi.index') }}" class="block font-medium hover:text-blue-200">Cetak Kuitansi</a>
+  <a href="{{ route('monitoring.index') }}" class="block font-medium hover:text-blue-200">Monitoring Saldo</a>
+</nav>
 
-    <!-- Menu bawah -->
-    <nav class="space-y-4 mt-auto">
-      <a href="#" class="block font-medium hover:text-blue-200">Pengaturan</a>
-      <a href="#" class="block font-medium text-red-200 hover:text-red-100">Logout</a>
-    </nav>
+<nav class="space-y-4 mt-auto">
+  <a href="#" class="block font-medium hover:text-blue-200">Pengaturan</a>
+  <form method="POST" action="{{ route('logout') }}">
+    @csrf
+    <button type="submit" class="block font-medium text-red-200 hover:text-red-100 w-full text-left">
+      Logout
+    </button>
+  </form>
+</nav>
   </aside>
-  
+
   <!-- Main Content -->
   <main class="flex-1 p-8">
-
+     <div>
+    <h1 class="text-2xl font-bold text-[#123458]">Koin Kene - Dashboard</h1>
+    <p class="text-sm text-gray-600 mt-2">Butuh Kuitansi? Cetak disini aja!</p>
+  </div>
     
     
     <!-- Form -->
-    <div class="bg-gray-100 rounded-xl p-10 shadow-lg border border-gray-200 max-w-3xl mx-auto">
+    <div class="w-full flex justify-center mt-6">
+      <div class="w-full max-w-xl bg-gray-100 rounded-xl p-10 shadow-lg border border-gray-200">
       
       <form action="{{ route('kwitansi.store') }}" method="POST" class="space-y-6">
         @csrf
@@ -73,21 +80,32 @@
                placeholder="Masukkan nominal">
     </div>
 
-    <!-- Buttons -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
-        <button type="submit"
-                class="bg-purple-600 py-3 rounded-xl text-white text-base font-semibold hover:bg-purple-700 transition w-full">
-            Cetak Kwitansi
-        </button>
+<!-- Buttons -->
+<div class="mt-8 flex justify-center">
+  <div class="flex gap-4 w-full max-w-md">
 
-        <a href="#"
-           class="bg-gray-300 py-3 rounded-xl text-base font-semibold text-center hover:bg-gray-400 transition w-full">
-            Download PDF
-        </a>
-    </div>
+    <button type="submit"
+      class="flex-1 py-3 rounded-xl text-white font-semibold text-sm shadow-md"
+      style="background: linear-gradient(90deg,#6D28D9,#7C3AED);">
+      Cetak Kwitansi
+    </button>
+
+    <a href="#"
+      class="flex-1 py-3 rounded-xl text-gray-800 font-semibold text-sm text-center
+             bg-gray-200 hover:bg-gray-300 transition shadow">
+      Download PDF
+    </a>
+
+  </div>
+</div>
+
+
+
+
 
 </form>
     </div>
+</div>
 
   </main>
 </div>
