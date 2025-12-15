@@ -10,10 +10,11 @@ class TransaksiController extends Controller
 {
     public function index()
     {
-        $userId = Auth::id(); // lebih aman daripada Auth::user()->id
+        $userId = Auth::id();
         $transaksi = Transaksi::where('user_id', $userId)->get();
 
-        return view('transaksi.index', compact('transaksi'));
+        // arahkan ke views/transaksi.blade.php
+        return view('transaksi', compact('transaksi'));
     }
 
     public function store(Request $request)
@@ -23,17 +24,20 @@ class TransaksiController extends Controller
         $request->validate([
             'tanggal' => 'required|date',
             'jenis' => 'required|in:Pemasukan,Pengeluaran',
+            'kategori' => 'nullable|string|max:255',
             'nominal' => 'required|numeric|min:0',
+            'deskripsi' => 'nullable|string',
         ]);
+
+        $saldoSebelumnya = Transaksi::where('user_id', $userId)->latest('tanggal')->first()?->saldo_akhir ?? 0;
 
         $transaksi = new Transaksi();
         $transaksi->user_id = $userId;
         $transaksi->tanggal = $request->tanggal;
         $transaksi->jenis = $request->jenis;
+        $transaksi->kategori = $request->kategori;
         $transaksi->nominal = $request->nominal;
-
-        // Hitung saldo akhir
-        $saldoSebelumnya = Transaksi::where('user_id', $userId)->latest('tanggal')->first()?->saldo_akhir ?? 0;
+        $transaksi->deskripsi = $request->deskripsi;
         $transaksi->saldo_akhir = $request->jenis === 'Pemasukan'
             ? $saldoSebelumnya + $request->nominal
             : $saldoSebelumnya - $request->nominal;

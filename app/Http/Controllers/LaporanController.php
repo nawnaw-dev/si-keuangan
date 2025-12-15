@@ -12,9 +12,28 @@ class LaporanController extends Controller
     public function index()
     {
         $userId = Auth::id();
+
+        // semua transaksi user
         $laporan = Transaksi::where('user_id', $userId)->get();
 
-        return view('laporan.index', compact('laporan'));
+        // transaksi bulan ini
+        $transaksiBulanan = Transaksi::where('user_id', $userId)
+            ->whereYear('tanggal', now()->year)
+            ->whereMonth('tanggal', now()->month)
+            ->get();
+
+        // ringkasan
+        $totalPemasukan = $laporan->where('jenis', 'Pemasukan')->sum('nominal');
+        $totalPengeluaran = $laporan->where('jenis', 'Pengeluaran')->sum('nominal');
+        $saldoAkhir = $totalPemasukan - $totalPengeluaran;
+
+        return view('laporan', compact(
+            'laporan',
+            'transaksiBulanan',
+            'totalPemasukan',
+            'totalPengeluaran',
+            'saldoAkhir'
+        ));
     }
 
     public function generate()
@@ -22,7 +41,22 @@ class LaporanController extends Controller
         $userId = Auth::id();
         $laporan = Transaksi::where('user_id', $userId)->get();
 
-        return view('laporan.generate', compact('laporan'));
+        $transaksiBulanan = Transaksi::where('user_id', $userId)
+            ->whereYear('tanggal', now()->year)
+            ->whereMonth('tanggal', now()->month)
+            ->get();
+
+        $totalPemasukan = $laporan->where('jenis', 'Pemasukan')->sum('nominal');
+        $totalPengeluaran = $laporan->where('jenis', 'Pengeluaran')->sum('nominal');
+        $saldoAkhir = $totalPemasukan - $totalPengeluaran;
+
+        return view('laporan', compact(
+            'laporan',
+            'transaksiBulanan',
+            'totalPemasukan',
+            'totalPengeluaran',
+            'saldoAkhir'
+        ));
     }
 
     public function exportPDF()
@@ -30,8 +64,23 @@ class LaporanController extends Controller
         $userId = Auth::id();
         $laporan = Transaksi::where('user_id', $userId)->get();
 
-        // contoh: generate PDF pakai dompdf
-        $pdf = PDF::loadView('laporan.pdf', compact('laporan'));
+        $transaksiBulanan = Transaksi::where('user_id', $userId)
+            ->whereYear('tanggal', now()->year)
+            ->whereMonth('tanggal', now()->month)
+            ->get();
+
+        $totalPemasukan = $laporan->where('jenis', 'Pemasukan')->sum('nominal');
+        $totalPengeluaran = $laporan->where('jenis', 'Pengeluaran')->sum('nominal');
+        $saldoAkhir = $totalPemasukan - $totalPengeluaran;
+
+        $pdf = Pdf::loadView('laporan_pdf', compact(
+            'laporan',
+            'transaksiBulanan',
+            'totalPemasukan',
+            'totalPengeluaran',
+            'saldoAkhir'
+        ));
+
         return $pdf->download('laporan.pdf');
     }
 }
