@@ -34,7 +34,7 @@
     <div class="mb-8 flex items-center justify-between">
       <div>
         <h1 class="text-2xl font-bold text-[#123458]">Koin Kene - Dashboard</h1>
-        <p class="text-sm text-gray-600 mt-2">Hallo, Welcome Back!</p>
+        <p class="text-sm text-gray-600 mt-2">Hallo {{ Auth::user()->name }}, Welcome Back!</p>
       </div>
       <!-- Dropdown tahun + bulan -->
       <div class="flex items-center gap-3">
