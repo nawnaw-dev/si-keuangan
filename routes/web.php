@@ -8,13 +8,11 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\KwitansiController;
 use App\Http\Controllers\MonitoringController;
 
-// ROUTE UTAMA (AUTO REDIRECT)
+// HALAMAN PUBLIK
+
 Route::get('/', function () {
-    if (auth()->check()) {
-        return redirect()->route('dashboard');
-    }
-    return redirect()->route('login');
-});
+    return redirect('/login');
+})->name('welcome');
 
 // ROUTES UNTUK GUEST (Belum Login)
 Route::middleware('guest')->group(function () {
@@ -65,6 +63,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // FALLBACK ROUTE (404)
+
 Route::fallback(function () {
     return response()->view('errors.404', [], 404);
 });
