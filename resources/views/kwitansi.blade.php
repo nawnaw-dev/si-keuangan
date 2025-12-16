@@ -4,27 +4,27 @@
 
 @section('content')
 <div class="min-h-screen bg-white flex">
+  <!-- Sidebar -->
   <aside class="w-64 bg-gradient-to-b from-[#123458] to-[#2770BE] text-white p-8 flex flex-col">
     <h2 class="text-2xl font-bold mb-8">Koin Kene</h2>
     
     <!-- Menu atas -->
     <nav class="space-y-7">
-  <a href="{{ route('dashboard') }}" class="block font-medium hover:text-blue-200">Dashboard</a>
-  <a href="{{ route('transaksi.index') }}" class="block font-medium hover:text-blue-200">Transaksi</a>
-  <a href="{{ route('laporan.index') }}" class="block font-medium hover:text-blue-200">Laporan Keuangan</a>
-  <a href="{{ route('kwitansi.index') }}" class="block font-medium hover:text-blue-200">Cetak Kuitansi</a>
-  <a href="{{ route('monitoring.index') }}" class="block font-medium hover:text-blue-200">Monitoring Saldo</a>
-</nav>
+      <a href="{{ route('dashboard') }}" class="block font-medium hover:text-blue-200">Dashboard</a>
+      <a href="{{ route('transaksi.index') }}" class="block font-medium hover:text-blue-200">Transaksi</a>
+      <a href="{{ route('laporan.index') }}" class="block font-medium hover:text-blue-200">Laporan Keuangan</a>
+      <a href="{{ route('kwitansi.index') }}" class="block font-medium hover:text-blue-200">Cetak Kuitansi</a>
+    </nav>
 
-<nav class="space-y-4 mt-auto">
-  <a href="#" class="block font-medium hover:text-blue-200">Pengaturan</a>
-  <form method="POST" action="{{ route('logout') }}">
-    @csrf
-    <button type="submit" class="block font-medium text-red-200 hover:text-red-100 w-full text-left">
-      Logout
-    </button>
-  </form>
-</nav>
+    <nav class="space-y-4 mt-auto">
+      <a href="#" class="block font-medium hover:text-blue-200">Pengaturan</a>
+      <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit" class="block font-medium text-red-200 hover:text-red-100 w-full text-left">
+          Logout
+        </button>
+      </form>
+    </nav>
   </aside>
 
   <!-- Main Content -->
