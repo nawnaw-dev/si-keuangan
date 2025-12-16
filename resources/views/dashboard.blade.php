@@ -14,7 +14,7 @@
       <a href="{{ route('transaksi.index') }}" class="block font-medium hover:text-blue-200">Transaksi</a>
       <a href="{{ route('laporan.index') }}" class="block font-medium hover:text-blue-200">Laporan Keuangan</a>
       <a href="{{ route('kwitansi.index') }}" class="block font-medium hover:text-blue-200">Cetak Kuitansi</a>
-      <a href="{{ route('monitoring.index') }}" class="block font-medium hover:text-blue-200">Monitoring Saldo</a>
+      <!-- <a href="{{ route('monitoring.index') }}" class="block font-medium hover:text-blue-200">Monitoring Saldo</a> -->
     </nav>
 
     <nav class="space-y-4 mt-auto">
