@@ -90,23 +90,24 @@
       Cetak Kwitansi
     </button>
 
-    <a href="#"
-      class="flex-1 py-3 rounded-xl text-gray-800 font-semibold text-sm text-center
-             bg-gray-200 hover:bg-gray-300 transition shadow">
-      Download PDF
-    </a>
-
+    @if(session('kwitansi_id'))
+  <a href="{{ route('kwitansi.pdf', session('kwitansi_id')) }}"
+     class="flex-1 py-3 rounded-xl text-gray-800 font-semibold text-sm text-center
+            bg-gray-200 hover:bg-gray-300 transition shadow">
+    Download PDF
+  </a>
+@else
+  <button type="button" disabled
+    class="flex-1 py-3 rounded-xl text-gray-400 font-semibold text-sm
+           bg-gray-100 cursor-not-allowed shadow">
+    Download PDF
+  </button>
+@endif
   </div>
 </div>
-
-
-
-
-
 </form>
     </div>
 </div>
-
   </main>
 </div>
 @endsection
