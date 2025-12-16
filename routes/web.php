@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -8,22 +8,15 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\KwitansiController;
 use App\Http\Controllers\MonitoringController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes - Koin Kene Application
-|--------------------------------------------------------------------------
-*/
-
-// ============================================
-// HALAMAN PUBLIK
-// ============================================
+// ROUTE UTAMA (AUTO REDIRECT)
 Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+    if (auth()->check()) {
+        return redirect()->route('dashboard');
+    }
+    return redirect()->route('login');
+});
 
-// ============================================
 // ROUTES UNTUK GUEST (Belum Login)
-// ============================================
 Route::middleware('guest')->group(function () {
     // Login Routes
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -34,9 +27,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 });
 
-// ============================================
 // ROUTES UNTUK USER YANG SUDAH LOGIN
-// ============================================
 Route::middleware('auth')->group(function () {
     
     // ========== Authentication ==========
@@ -73,9 +64,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/monitoring', [MonitoringController::class, 'index'])->name('monitoring.index');
 });
 
-// ============================================
 // FALLBACK ROUTE (404)
-// ============================================
 Route::fallback(function () {
     return response()->view('errors.404', [], 404);
 });
