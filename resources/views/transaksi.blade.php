@@ -30,7 +30,7 @@
   </aside>
 
   <!-- Main content -->
-    <main class="flex-1 p-8 space-y-8 ml-64">
+    <main class="flex-1 p-8 space-y-8 ml-64" x-data="{ deleteModal: false, deleteId: null }">
     <div>
       <h1 class="text-2xl font-bold text-[#123458]">Koin Kene - Transaksi</h1>
       <p class="text-sm text-gray-600 mt-2">Hallo, {{ Auth::user()->name }}! Welcome Back!</p>
